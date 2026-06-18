@@ -2,6 +2,7 @@ import { aiPatternsAnalyzer } from "./ai-patterns.js";
 import { descriptionAnalyzer } from "./description.js";
 import { diffAnalyzer } from "./diff.js";
 import { reputationAnalyzer } from "./reputation.js";
+import { repoRulesAnalyzer } from "./repo-rules.js";
 import type { Analyzer, AnalyzerContext, AnalyzerResult } from "../types.js";
 
 const ANALYZER_REGISTRY: Array<{ id: string; run: Analyzer }> = [
@@ -18,7 +19,12 @@ export async function runAnalyzers(
     ctx.config.disabledAnalyzers.map((id) => id.toLowerCase()),
   );
 
-  const active = ANALYZER_REGISTRY.filter(({ id }) => !disabled.has(id));
+  const registry = [...ANALYZER_REGISTRY];
+  if (ctx.config.weights.repo_rules > 0) {
+    registry.push({ id: "repo_rules", run: repoRulesAnalyzer });
+  }
+
+  const active = registry.filter(({ id }) => !disabled.has(id));
 
   return Promise.all(
     active.map(async ({ id, run }) => {
@@ -40,4 +46,5 @@ export {
   descriptionAnalyzer,
   diffAnalyzer,
   aiPatternsAnalyzer,
+  repoRulesAnalyzer,
 };

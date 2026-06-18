@@ -18,13 +18,26 @@ async function handlePullRequest(context: PullRequestContext): Promise<void> {
     `PR #${pullNumber} ${action} — running spam check (phase 1)`,
   );
 
-  await runPipeline({
-    octokit: context.octokit,
-    owner,
-    repo,
-    pullNumber,
-    sha,
-  });
+  try {
+    await runPipeline({
+      octokit: context.octokit,
+      owner,
+      repo,
+      pullNumber,
+      sha,
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    const status =
+      error && typeof error === "object" && "status" in error
+        ? (error as { status: number }).status
+        : undefined;
+    context.log.error(
+      { err: error, status },
+      `PR #${pullNumber} spam check failed: ${message}`,
+    );
+    throw error;
+  }
 }
 
 export default (app: Probot) => {

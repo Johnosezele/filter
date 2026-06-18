@@ -109,3 +109,5 @@ src/
 ## License
 
 MIT
+
+<!-- spam-check test PR -->

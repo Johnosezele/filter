@@ -7,6 +7,7 @@ default_events:
 
 default_permissions:
   metadata: read
+  administration: read
   contents: read
   issues: write
   pull_requests: write

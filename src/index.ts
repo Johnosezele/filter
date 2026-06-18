@@ -1,5 +1,6 @@
 import { Probot, type Context } from "probot";
 
+import { handleIssueComment } from "./commands/handler.js";
 import { runPipeline } from "./pipeline.js";
 
 type PullRequestContext =
@@ -55,4 +56,5 @@ export default (app: Probot) => {
   app.on("pull_request.opened", handlePullRequest);
   app.on("pull_request.synchronize", handlePullRequest);
   app.on("pull_request.reopened", handlePullRequest);
+  app.on("issue_comment.created", handleIssueComment);
 };

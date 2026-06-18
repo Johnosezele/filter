@@ -119,3 +119,20 @@ export async function postErrorStatus(
     description: "PR Spam Check: analysis failed",
   });
 }
+
+export async function postOverrideStatus(
+  octokit: ProbotOctokit,
+  owner: string,
+  repo: string,
+  sha: string,
+  login: string,
+): Promise<void> {
+  await postStatus({
+    octokit,
+    owner,
+    repo,
+    sha,
+    state: "success",
+    description: `PR Spam Check: override by @${login}`,
+  });
+}

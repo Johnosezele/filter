@@ -2,6 +2,13 @@
 
 GitHub App that scores pull requests for spam likelihood and posts a Coveralls-style commit status. PRs scoring ≥ 70% fail the check until a maintainer overrides.
 
+## Phase 2 status
+
+- [x] Types, Zod config loader, weighted scorer
+- [x] Analyzers: reputation, description, diff, AI patterns
+- [x] Pipeline runs analyzers in parallel and posts tiered status
+- [x] Unit tests for scorer, description analyzer, and score thresholds
+
 ## Phase 1 status
 
 - [x] Probot + TypeScript scaffold

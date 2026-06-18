@@ -4,7 +4,7 @@
   "pull_request": {
     "number": 42,
     "title": "Add feature",
-    "body": "This PR adds a feature.",
+    "body": "## Summary\n\nFixes #1. This change adds structured logging for the spam check pipeline.\n\n## Testing\n\n- [x] npm test\n\nVerified locally with unit tests and a sample webhook.",
     "user": {
       "login": "new-contributor"
     },
@@ -18,6 +18,7 @@
   },
   "repository": {
     "name": "filter",
+    "default_branch": "main",
     "owner": {
       "login": "test-org"
     }

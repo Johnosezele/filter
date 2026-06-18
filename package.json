@@ -16,9 +16,12 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "probot": "^14.3.2"
+    "probot": "^14.3.2",
+    "yaml": "^2.9.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
     "@types/node": "^24.0.0",
     "ioredis": "^5.10.1",
     "nock": "^14.0.5",

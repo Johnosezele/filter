@@ -8,14 +8,15 @@ type PullRequestContext =
   | Context<"pull_request.reopened">;
 
 async function handlePullRequest(context: PullRequestContext): Promise<void> {
-  const owner = context.payload.repository.owner.login;
-  const repo = context.payload.repository.name;
-  const pullNumber = context.payload.pull_request.number;
-  const sha = context.payload.pull_request.head.sha;
+  const { pull_request: pr, repository } = context.payload;
+  const owner = repository.owner.login;
+  const repo = repository.name;
+  const pullNumber = pr.number;
+  const sha = pr.head.sha;
   const action = context.payload.action;
 
   context.log.info(
-    `PR #${pullNumber} ${action} — running spam check (phase 1)`,
+    `PR #${pullNumber} ${action} — running spam check`,
   );
 
   try {
@@ -25,7 +26,17 @@ async function handlePullRequest(context: PullRequestContext): Promise<void> {
       repo,
       pullNumber,
       sha,
+      defaultBranch: repository.default_branch,
+      pr: {
+        title: pr.title,
+        body: pr.body,
+        user: { login: pr.user?.login ?? "ghost" },
+        head: { sha: pr.head.sha, ref: pr.head.ref },
+        base: { ref: pr.base.ref },
+      },
     });
+
+    context.log.info(`PR #${pullNumber} spam check complete`);
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     const status =

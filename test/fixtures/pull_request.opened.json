@@ -1,0 +1,31 @@
+{
+  "action": "opened",
+  "number": 42,
+  "pull_request": {
+    "number": 42,
+    "title": "Add feature",
+    "body": "This PR adds a feature.",
+    "user": {
+      "login": "new-contributor"
+    },
+    "head": {
+      "sha": "abc123def456",
+      "ref": "feature-branch"
+    },
+    "base": {
+      "ref": "main"
+    }
+  },
+  "repository": {
+    "name": "filter",
+    "owner": {
+      "login": "test-org"
+    }
+  },
+  "installation": {
+    "id": 2
+  },
+  "sender": {
+    "login": "new-contributor"
+  }
+}

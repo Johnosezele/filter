@@ -1,0 +1,29 @@
+{
+  "name": "pr-spam-checker",
+  "version": "0.1.0",
+  "private": true,
+  "description": "GitHub App that scores PRs for spam likelihood and blocks low-quality contributions",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": "^20.18.1 || >= 22"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "probot run ./lib/index.js",
+    "dev": "npm run build && probot run ./lib/index.js",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "probot": "^14.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "ioredis": "^5.10.1",
+    "nock": "^14.0.5",
+    "smee-client": "^5.0.0",
+    "typescript": "^6.0.3",
+    "vitest": "^3.2.4"
+  }
+}

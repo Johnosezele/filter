@@ -1,0 +1,16 @@
+# Dogfood config for this repo (used starting Phase 3)
+threshold: 70
+warn_threshold: 30
+
+always_comment: false
+
+weights:
+  reputation: 0.25
+  description: 0.30
+  diff: 0.30
+  ai_patterns: 0.15
+  repo_rules: 0.00
+
+allowlist:
+  - dependabot[bot]
+  - renovate[bot]

@@ -1,0 +1,13 @@
+# GitHub App manifest — used when creating the app via Probot's setup flow.
+# Changing this file does not update an existing GitHub App; edit settings in the UI.
+
+default_events:
+  - pull_request
+  - issue_comment
+
+default_permissions:
+  metadata: read
+  contents: read
+  issues: write
+  pull_requests: write
+  statuses: write

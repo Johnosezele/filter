@@ -7,7 +7,7 @@ GitHub App that scores pull requests for spam likelihood and posts a Coveralls-s
 - [x] Probot + TypeScript scaffold
 - [x] `pull_request` webhook handler (`opened`, `synchronize`, `reopened`)
 - [x] Pending → success commit status (`pr-spam-checker/status`)
-- [ ] GitHub App registered and installed on a test repo
+- [x] GitHub App registered and installed on a test repo
 
 ## Quick start (local)
 

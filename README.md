@@ -2,6 +2,12 @@
 
 GitHub App that scores pull requests for spam likelihood and posts a Coveralls-style commit status. PRs scoring ≥ 70% fail the check until a maintainer overrides.
 
+## Phase 3 status
+
+- [x] PR comment with score breakdown (upsert via `<!-- pr-spam-checker -->`)
+- [x] Repo-rules analyzer (issue refs, sections, forbidden phrases/paths)
+- [x] Comments on medium+ risk PRs (`warn_threshold` or `always_comment`)
+
 ## Phase 2 status
 
 - [x] Types, Zod config loader, weighted scorer

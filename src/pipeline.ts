@@ -1,6 +1,11 @@
 import { runAnalyzers } from "./analyzers/index.js";
 import { isAllowlisted, loadConfig } from "./config/loader.js";
 import {
+  buildComment,
+  shouldComment,
+  upsertSpamCheckComment,
+} from "./report/comment.js";
+import {
   postAllowlistedStatus,
   postErrorStatus,
   postPendingStatus,
@@ -51,6 +56,16 @@ export async function runPipeline(ctx: PipelineContext): Promise<void> {
     const report = score(results, config);
 
     await postReportStatus(octokit, owner, repo, sha, report);
+
+    if (shouldComment(report, config)) {
+      await upsertSpamCheckComment(
+        octokit,
+        owner,
+        repo,
+        pullNumber,
+        buildComment(report),
+      );
+    }
   } catch (error) {
     await postErrorStatus(octokit, owner, repo, sha);
     throw error;

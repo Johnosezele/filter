@@ -1,4 +1,4 @@
-# Dogfood config for this repo (used starting Phase 3)
+# Dogfood config for this repo
 threshold: 70
 warn_threshold: 30
 
@@ -14,3 +14,22 @@ weights:
 allowlist:
   - dependabot[bot]
   - renovate[bot]
+
+# Example repo rules (enable by setting repo_rules weight > 0):
+# rules:
+#   require_issue_reference: true
+#   min_diff_lines: 5
+#   required_sections:
+#     - "## Testing"
+#   forbidden_phrases:
+#     - "hacktoberfest"
+#   forbidden_paths:
+#     - "docs/sponsors/**"
+
+# Customize phrase detection (optional):
+# phrases:
+#   generic_phrases:
+#     add:
+#       - "hacktoberfest"
+#     remove:
+#       - "fix bug"

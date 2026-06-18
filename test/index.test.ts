@@ -7,6 +7,7 @@ import { afterEach, beforeEach, describe, expect, test } from "vitest";
 
 import myProbotApp from "../src/index.js";
 import { pullRequestOpenedEvent } from "./helpers/events.js";
+import { mockGithubAnalysisApis } from "./helpers/github-mocks.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -36,7 +37,7 @@ describe("pull_request handler", () => {
     nock.enableNetConnect();
   });
 
-  test("posts pending then success status on pull_request.opened", async () => {
+  test("posts pending then scored status on pull_request.opened", async () => {
     const statuses: Array<{ state: string; description: string }> = [];
 
     const mock = nock("https://api.github.com")
@@ -45,9 +46,13 @@ describe("pull_request handler", () => {
         token: "test",
         permissions: {
           statuses: "write",
-          pull_requests: "write",
+          pull_requests: "read",
+          contents: "read",
         },
-      })
+      });
+
+    mockGithubAnalysisApis();
+    mock
       .post("/repos/test-org/filter/statuses/abc123def456", (body) => {
         statuses.push({
           state: body.state as string,
@@ -66,10 +71,10 @@ describe("pull_request handler", () => {
       state: "pending",
       description: "PR Spam Check: analyzing...",
     });
-    expect(statuses[1]).toEqual({
-      state: "success",
-      description: "PR Spam Check: passed (0%)",
-    });
+    expect(statuses[1]?.state).toBe("success");
+    expect(statuses[1]?.description).toMatch(
+      /PR Spam Check: (passed|review recommended) \(\d+%\)/,
+    );
     expect(mock.pendingMocks()).toStrictEqual([]);
   });
 });

@@ -50,3 +50,9 @@ export function sentenceLengthStdDev(text: string): number {
 export function hasIssueReference(text: string): boolean {
   return /(?:fixes|closes|resolves)\s+#\d+/i.test(text) || /#\d+/.test(text);
 }
+
+const EMOJI_PATTERN = /\p{Extended_Pictographic}/gu;
+
+export function countEmojis(text: string): number {
+  return text.match(EMOJI_PATTERN)?.length ?? 0;
+}

@@ -33,3 +33,12 @@ allowlist:
 #       - "hacktoberfest"
 #     remove:
 #       - "fix bug"
+#   emoji_patterns:
+#     enabled: true
+#     min_count: 4              # flag when total emojis >= this
+#     min_list_matches: 2       # flag when this many listed emojis appear
+#     spam_emojis:
+#       add:
+#         - "🤖"
+#       remove:
+#         - "👍"

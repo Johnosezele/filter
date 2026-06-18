@@ -2,6 +2,7 @@ import { describe, expect, test } from "vitest";
 
 import {
   DEFAULT_GENERIC_PHRASES,
+  resolveEmojiPatterns,
   resolvePhrases,
 } from "../../src/analyzers/phrases.js";
 import { descriptionAnalyzer } from "../../src/analyzers/description.js";
@@ -40,6 +41,35 @@ describe("resolvePhrases", () => {
 
     expect(resolved.genericPhrases).toEqual(["custom spam phrase"]);
     expect(resolved.genericPhrases).not.toContain("fix bug");
+  });
+});
+
+describe("resolveEmojiPatterns", () => {
+  test("returns built-in spam emojis by default", () => {
+    const resolved = resolveEmojiPatterns();
+
+    expect(resolved.enabled).toBe(true);
+    expect(resolved.minCount).toBe(4);
+    expect(resolved.minListMatches).toBe(2);
+    expect(resolved.spamEmojis).toContain("✨");
+    expect(resolved.spamEmojis).toContain("🚀");
+  });
+
+  test("adds and removes configured spam emojis", () => {
+    const resolved = resolveEmojiPatterns({
+      spam_emojis: {
+        add: ["🤖"],
+        remove: ["👍"],
+      },
+    });
+
+    expect(resolved.spamEmojis).toContain("🤖");
+    expect(resolved.spamEmojis).not.toContain("👍");
+  });
+
+  test("can disable emoji checks", () => {
+    const resolved = resolveEmojiPatterns({ enabled: false });
+    expect(resolved.enabled).toBe(false);
   });
 });
 

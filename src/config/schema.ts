@@ -37,6 +37,14 @@ const phrasesSchema = z
     ai_phrases: phraseListSchema,
     transition_words: phraseListSchema,
     pleasantry_words: phraseListSchema,
+    emoji_patterns: z
+      .object({
+        enabled: z.boolean().optional(),
+        min_count: z.number().int().positive().optional(),
+        min_list_matches: z.number().int().positive().optional(),
+        spam_emojis: phraseListSchema,
+      })
+      .optional(),
   })
   .optional();
 

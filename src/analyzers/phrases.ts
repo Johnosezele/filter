@@ -47,11 +47,69 @@ export const DEFAULT_PLEASANTRY_WORDS = [
   "please review",
 ];
 
+/** Emojis common in low-effort / AI-generated PR descriptions. */
+export const DEFAULT_SPAM_EMOJIS = [
+  "✨",
+  "🚀",
+  "💯",
+  "🎉",
+  "🔥",
+  "⚡",
+  "🙏",
+  "👍",
+];
+
 export interface ResolvedPhrases {
   genericPhrases: string[];
   aiPhrases: string[];
   transitionWords: RegExp;
   pleasantryPattern: RegExp;
+}
+
+export interface ResolvedEmojiPatterns {
+  enabled: boolean;
+  minCount: number;
+  minListMatches: number;
+  spamEmojis: string[];
+}
+
+function normalizeEmoji(emoji: string): string {
+  return emoji.trim();
+}
+
+function resolveEmojiList(
+  defaults: string[],
+  override?: PhraseListOverride,
+): string[] {
+  if (override?.use_defaults === false) {
+    return (override.phrases ?? []).map(normalizeEmoji).filter(Boolean);
+  }
+
+  const removed = new Set(
+    (override?.remove ?? []).map(normalizeEmoji).filter(Boolean),
+  );
+  const base = defaults.filter((emoji) => !removed.has(emoji));
+  const added = (override?.add ?? []).map(normalizeEmoji).filter(Boolean);
+
+  return [...base, ...added.filter((emoji) => !base.includes(emoji))];
+}
+
+export function resolveEmojiPatterns(
+  config?: PhrasesConfig["emoji_patterns"],
+): ResolvedEmojiPatterns {
+  return {
+    enabled: config?.enabled ?? true,
+    minCount: config?.min_count ?? 4,
+    minListMatches: config?.min_list_matches ?? 2,
+    spamEmojis: resolveEmojiList(DEFAULT_SPAM_EMOJIS, config?.spam_emojis),
+  };
+}
+
+export function matchSpamEmojis(
+  text: string,
+  spamEmojis: string[],
+): string[] {
+  return spamEmojis.filter((emoji) => text.includes(emoji));
 }
 
 function normalizePhrase(phrase: string): string {

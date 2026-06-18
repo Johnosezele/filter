@@ -39,7 +39,7 @@ Filter runs analyzers in parallel (`Promise.all`). Each returns a 0–100% spam 
 | **Reputation** | Contributor trust — account age, public repos, bio, push activity, prior contributions to this repo, merged PR history |
 | **Description** | PR title and body — length, generic spam phrases, whether the body copies the title, testing mentions, markdown structure |
 | **Diff** | Changed files — source vs test files, whitespace-only edits, docs-only changes, changes spanning many directories |
-| **AI patterns** | AI-style writing in the PR body and commit messages — boilerplate phrases, first-person openings, transition words, uniform sentence length, pleasantries |
+| **AI patterns** | AI-style writing in the PR body and commit messages — boilerplate phrases, first-person openings, transition words, uniform sentence length, pleasantries, **emoji density and configurable spam emojis** |
 
 ### Optional (5th analyzer)
 
@@ -104,6 +104,17 @@ rules:
   require_issue_reference: true
   required_sections:
     - "## Testing"
+
+phrases:
+  emoji_patterns:
+    enabled: true
+    min_count: 4
+    min_list_matches: 2
+    spam_emojis:
+      add:
+        - "🤖"
+      remove:
+        - "👍"
 ```
 
 No redeploy needed — the next PR picks up config changes automatically.

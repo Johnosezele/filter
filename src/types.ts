@@ -27,6 +27,16 @@ export interface PhrasesConfig {
   ai_phrases?: PhraseListOverride;
   transition_words?: PhraseListOverride;
   pleasantry_words?: PhraseListOverride;
+  emoji_patterns?: EmojiPatternConfig;
+}
+
+export interface EmojiPatternConfig {
+  enabled?: boolean;
+  /** Flag when total emoji count in PR text is at or above this (default 4). */
+  min_count?: number;
+  /** Flag when this many configured spam emojis appear (default 2). */
+  min_list_matches?: number;
+  spam_emojis?: PhraseListOverride;
 }
 
 export interface SpamCheckConfig {
